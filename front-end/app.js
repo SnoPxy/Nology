@@ -1,71 +1,27 @@
 const URL_CALCULAR = "https://testeapp-d378.onrender.com/calcular";
 const URL_HISTORICO = "https://testeapp-d378.onrender.com/historico";
 
-async function post(event) {
-    event.preventDefault();
 
-    let request = new XMLHttpRequest();
-    request.open("POST", URL_CASHBACK, true);
-    request.setRequestHeader("Content-type", "application/json");
+function formatarData(data) {
+    if (!data) return "-";
 
-    let id = document.getElementById("client-type").value;
-    let valor = document.getElementById("purchase-value").value;
+    let d = new Date(data);
 
-    let body = {
-        "tipo_id": id,
-        "valor": valor,
-    };
-
-    request.onload = function () {
-        console.log(this.responseText);
-    };
-
-    request.send(JSON.stringify(body));
+    return d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
 }
 
-function fazerrequisicao() {
-    fetch(URL_HISTORICO)
-        .then(response => response.json())
-        .then(cenouras => {
-            console.log(cenouras);
-
-            const div = document.getElementById("history-body");
-
-            div.innerHTML = "";
-
-            cenouras.forEach(cenoura => {
-                div.innerHTML += `
-                    <tr>
-                        <td class="px-6 py-4 text-center">${cenoura.nome_tipo_cliente}</td>
-                        <td class="px-6 py-4 text-center">R$${Number(cenoura.valor_consulta).toFixed(2)}</td>
-                        <td class="px-6 py-4 text-center">
-                            ${new Date(cenoura.data_acesso).toLocaleDateString('pt-BR')}
-                        </td>
-                        <td class="px-6 py-4 text-center ${cenoura.valor_consulta > 500 ? 'text-[#00d1b2]' : ''}">
-                            R$${calcularCashback(cenoura).toFixed(2)}
-                        </td>
-                    </tr>
-                `;
-            });
-        })
-        .catch(error => {
-            console.log("Erro:", error);
-        });
-}
-
-function calcularCashback(cenoura) {
-    let valor = Number(cenoura.valor_consulta);
-    let tipo = Number(cenoura.id_tipo_cliente);
-
-    let cashbackBase = valor * 0.05;
-    let cashbackTotal = cashbackBase;
-
-    // VIP (id = 1) ganha +10% sobre o cashback base
-    if (tipo === 1) {
-        cashbackTotal += cashbackBase * 0.10;
+function calcularCashback(c) {
+    let valor = Number(c.valor_consulta);
+    
+    let cashbackBase = valor * 0.05; 
+    
+    let cashbackVIP = 0;
+    if (Number(c.id_tipo_cliente) === 1) {
+        cashbackVIP = cashbackBase * 0.10;
     }
 
-    // promoção: dobra acima de 500
+    let cashbackTotal = cashbackBase + cashbackVIP;
+
     if (valor > 500) {
         cashbackTotal *= 2;
     }
@@ -73,10 +29,89 @@ function calcularCashback(cenoura) {
     return cashbackTotal;
 }
 
-document.getElementById("btn_form").addEventListener("click", (e) => {
-    post(e);
+function fazerRequisicao() {
+    let request = new XMLHttpRequest();
 
-    setTimeout(() => {
-        fazerrequisicao();
-    }, 1000);
+    request.open("GET", URL_HISTORICO, true);
+
+    request.onload = function () {
+        if (this.status === 200) {
+            let data = JSON.parse(this.responseText);
+            exibirDados(data);
+        } else {
+            console.log("Erro na requisição do histórico");
+        }
+    };
+
+    request.send();
+}
+
+function exibirDados(lista) {
+    let tbody = document.getElementById("history-body");
+
+    if (!tbody) return;
+
+    tbody.innerHTML = "";
+
+    lista.forEach(item => {
+        let cashback = calcularCashback(item);
+
+        tbody.innerHTML += `
+            <tr class="text-center">
+                <td class="px-6 py-4">${item.nome_tipo_cliente}</td>
+                <td class="px-6 py-4">R$ ${Number(item.valor_consulta).toFixed(2)}</td>
+                <td class="px-6 py-4">${formatarData(item.data_acesso)}</td>
+                <td class="px-6 py-4 text-[#00d1b2] font-bold">
+                    R$ ${Number(cashback).toFixed(2)}
+                </td>
+            </tr>
+        `;
+    });
+}
+
+function enviarCalculo(tipo, valor) {
+    let request = new XMLHttpRequest();
+
+    request.open("POST", URL_CALCULAR, true);
+    request.setRequestHeader("Content-Type", "application/json");
+
+    request.onload = function () {
+        if (this.status === 200) {
+            console.log("Cashback calculado com sucesso!");
+            fazerRequisicao();
+        } else {
+            console.log("Erro ao calcular cashback");
+        }
+    };
+
+    let body = JSON.stringify({
+        id_tipo_cliente: Number(tipo),
+        valor_consulta: Number(valor)
+    });
+
+    request.send(body);
+}
+document.addEventListener("DOMContentLoaded", function () {
+
+    const btn = document.getElementById("btn_form");
+
+    if (btn) {
+        btn.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            const tipo = document.getElementById("client-type").value;
+            const valor = document.getElementById("purchase-value").value;
+
+            enviarCalculo(tipo, valor);
+        });
+    }
+
+    const refresh = document.getElementById("refresh-history");
+
+    if (refresh) {
+        refresh.addEventListener("click", function () {
+            fazerRequisicao();
+        });
+    }
+    fazerRequisicao();
 });
