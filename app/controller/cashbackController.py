@@ -1,4 +1,4 @@
-from model import modelCashback
+from app.model import modelCashback
 
 
 class CashbackController:
@@ -10,13 +10,11 @@ class CashbackController:
 
     def calculate_cashback(self, tipo_id, value_sale):
         tipo = self.model.get_by_id(tipo_id)
-       
 
         if not tipo:
             return None
 
-        
-        a = tipo['valor']  
+        a = tipo['valor']
         cashback = value_sale * (a/100)
 
         return {
@@ -28,6 +26,3 @@ class CashbackController:
 
     def close_connection(self):
         self.model.close()
-        
-        
-        
