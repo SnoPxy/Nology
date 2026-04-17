@@ -2,6 +2,14 @@ const URL_CALCULAR = "https://testeapp-d378.onrender.com/calcular";
 const URL_HISTORICO = "https://testeapp-d378.onrender.com/historico";
 
 
+function formatarData(data) {
+    if (!data) return "-";
+
+    let d = new Date(data);
+
+    return d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
+}
+
 function calcularCashback(c) {
     let valor = Number(c.valor_consulta);
 
@@ -52,7 +60,7 @@ function exibirDados(lista) {
             <tr class="text-center">
                 <td class="px-6 py-4">${item.nome_tipo_cliente}</td>
                 <td class="px-6 py-4">R$ ${Number(item.valor_consulta).toFixed(2)}</td>
-                <td class="px-6 py-4">${item.data_acesso || "-"}</td>
+                <td class="px-6 py-4">${formatarData(item.data_acesso)}</td>
                 <td class="px-6 py-4 text-[#00d1b2] font-bold">
                     R$ ${Number(cashback).toFixed(2)}
                 </td>
@@ -70,7 +78,7 @@ function enviarCalculo(tipo, valor) {
     request.onload = function () {
         if (this.status === 200) {
             console.log("Cashback calculado com sucesso!");
-            fazerRequisicao(); 
+            fazerRequisicao();
         } else {
             console.log("Erro ao calcular cashback");
         }
@@ -83,7 +91,6 @@ function enviarCalculo(tipo, valor) {
 
     request.send(body);
 }
-
 document.addEventListener("DOMContentLoaded", function () {
 
     const btn = document.getElementById("btn_form");
