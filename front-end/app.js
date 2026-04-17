@@ -1,6 +1,7 @@
 const URL_CALCULAR = "https://testeapp-d378.onrender.com/calcular";
 const URL_HISTORICO = "https://testeapp-d378.onrender.com/historico";
 
+
 function calcularCashback(c) {
     let valor = Number(c.valor_consulta);
 
@@ -49,7 +50,7 @@ function exibirDados(lista) {
 
         tbody.innerHTML += `
             <tr class="text-center">
-                <td class="px-6 py-4">${item.id_tipo_cliente}</td>
+                <td class="px-6 py-4">${item.nome_tipo_cliente}</td>
                 <td class="px-6 py-4">R$ ${Number(item.valor_consulta).toFixed(2)}</td>
                 <td class="px-6 py-4">${item.data_acesso || "-"}</td>
                 <td class="px-6 py-4 text-[#00d1b2] font-bold">
@@ -93,11 +94,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const tipo = document.getElementById("client-type").value;
             const valor = document.getElementById("purchase-value").value;
-
-            if (!tipo || !valor) {
-                console.log("Preencha todos os campos");
-                return;
-            }
 
             enviarCalculo(tipo, valor);
         });
