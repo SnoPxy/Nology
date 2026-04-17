@@ -29,12 +29,12 @@ O sistema realiza o cálculo de cashback baseado no tipo de cliente e no valor d
 
 ## Arquitetura do Projeto
 
-O backend foi estruturado utilizando o padrão MVC:
+O backend foi estruturado utilizando o padrão MVC e POO:
 
 * **Model** → Responsável pelo acesso e manipulação dos dados
 * **Controller** → Regras de negócio e lógica da aplicação
 * **View** → Consumo da API pelo frontend (JavaScript)
-  (**POO** → Programação orientada a objeto)
+
 
 
 ---
