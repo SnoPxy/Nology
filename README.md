@@ -31,11 +31,11 @@ O sistema realiza o cálculo de cashback baseado no tipo de cliente e no valor d
 
 O backend foi estruturado utilizando o padrão MVC:
 
-* **POO** → Programação orientada a objeto
 * **Model** → Responsável pelo acesso e manipulação dos dados
 * **Controller** → Regras de negócio e lógica da aplicação
 * **View** → Consumo da API pelo frontend (JavaScript)
-* 
+  (**POO** → Programação orientada a objeto)
+
 
 ---
 
