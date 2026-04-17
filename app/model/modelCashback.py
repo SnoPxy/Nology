@@ -1,5 +1,5 @@
 
-from conexao import connect, encerra_conexao
+from app.conexao import connect, encerra_conexao
 import psycopg2.extras
 
 class cashbackModel:
