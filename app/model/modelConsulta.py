@@ -1,4 +1,4 @@
-from conexao import connect, encerra_conexao
+from app.conexao import connect, encerra_conexao
 import socket
 import psycopg2.extras
 
