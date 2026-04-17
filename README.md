@@ -31,7 +31,7 @@ O sistema realiza o cálculo de cashback baseado no tipo de cliente e no valor d
 
 O backend foi estruturado utilizando o padrão MVC:
 
-**POO** -> Programação orientada a objeto
+* **POO** -> Programação orientada a objeto
 * **Model** → Responsável pelo acesso e manipulação dos dados
 * **Controller** → Regras de negócio e lógica da aplicação
 * **View** → Consumo da API pelo frontend (JavaScript)
@@ -70,15 +70,7 @@ frontend/
   * Multiplicador para compras acima de R$ 500
 * Exibição dinâmica dos resultados na interface
 
----
-
-## Regra de negócio do cashback
-
-* Cashback base: percentual do valor da compra
-* Cliente VIP: recebe bônus adicional
-* Compras acima de R$ 500: cashback dobrado
-
-
+--
 ## Exemplo de requisição API
 
 ```http
