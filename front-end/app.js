@@ -1,6 +1,5 @@
-const URL_CALCULAR = "http://127.0.0.1:8000/calcular";
-const URL_HISTORICO = "http://127.0.0.1:8000/historico";
-
+const URL_CALCULAR = "https://testeapp-d378.onrender.com/calcular";
+const URL_HISTORICO = "https://testeapp-d378.onrender.com/historico";
 
 function calcularCashback(c) {
     let valor = Number(c.valor_consulta);
