@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nology | Análise de Cashback</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-[#f8fafc] min-h-screen font-sans text-[#1e293b]">
+
+    <nav class="bg-[#001529] text-white sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-8">
+            <h1 class="text-3xl font-extrabold tracking-tighter flex items-center gap-2">
+                <span class="text-[#00d1b2]">Nology</span>
+            </h1>
+            </div>
+            <div class="flex items-center gap-4">
+            </div>
+        </div>
+    </nav>
+    <header class="bg-[#001529] text-white py-12 px-6 border-t border-white/10">
+    </header>
+    <main class="max-w-7xl mx-auto px-6 -mt-8 pb-20">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <div class="lg:col-span-4">
+                <div class="bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden">
+                    <div class="p-8">
+                        <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                            <i data-lucide="bar-chart-3" class="text-[#00d1b2]"></i>
+                            Simulação:
+                        </h3>
+                        
+                        <form id="cashback-form" class="space-y-6">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Tipo do Cliente</label>
+                               <select id="client-type" class="w-full border-2 border-gray-100 rounded-lg p-3 text-gray-400 focus:text-[#1e293b] focus:border-[#00d1b2] outline-none transition-all appearance-none bg-gray-50" required>
+                                    <option value="" disabled selected>Selecione: </option>
+                                    <option value="1">Cliente Vip</option>
+                                    <option value="2">Base</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Preço Unitário (R$)</label>
+                                <input type="number" id="purchase-value" step="0.01" class="w-full border-2 border-gray-100 rounded-lg p-3 focus:border-[#00d1b2] outline-none transition-all bg-gray-50" placeholder="Ex: 800" required>
+                            </div>
+
+                            <button id="btn_form" type="submit" class="w-full bg-[#00d1b2] text-[#001529] font-black py-4 rounded-lg shadow-lg hover:shadow-[#00d1b2]/20 transform active:scale-95 transition-all uppercase tracking-widest text-sm">
+                                Calcular
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-8">
+                <div class="bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden">
+                    <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+                        <h3 class="font-bold text-gray-700 uppercase text-xs tracking-widest flex items-center gap-2">
+                            <i data-lucide="list" class="w-4 h-4"></i>
+                            Logs de Monitoramento
+                        </h3>
+                        <button id="refresh-history" class="text-gray-400 hover:text-[#00d1b2] transition-colors">
+                            <i data-lucide="rotate-cw" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-[#f1f5f9] text-[10px] font-black uppercase text-gray-400 border-b border-gray-200">
+                              <tr class="text-center">
+                                <th id="tipo_cliente" class="px-6 py-4">Tipo Cliente</th>
+                                <th id="preco" class="px-6 py-4">Preço</th>
+                                <th id="data" class="px-6 py-4">Data de Acesso</th>
+                                <th id="cashback" class="px-6 py-4 text-[#00d1b2]">Cashback</th>
+                            </tr>
+                            </thead>
+                            <tbody id="history-body" class="divide-y divide-gray-100 text-sm">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+<script src="app.js"></script>
+</body>
+</html>
